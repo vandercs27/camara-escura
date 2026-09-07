@@ -223,4 +223,4 @@ module.exports = {
   getPhotographerProfile,
   getPhotosByEra,
   searchPhotographerByName,
-};
+};  
