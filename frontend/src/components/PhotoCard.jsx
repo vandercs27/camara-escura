@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export function PhotoCard({ photo }) {
   return (
     <div style={styles.card}>
-      <Link to={`/foto/${photo.id}`} style={{ textDecoration: 'none' }}>
+      <Link to={`/foto/${photo.id}`} style={styles.imageContainer}>
         <img 
           src={photo.imageUrl} 
           alt={photo.title} 
@@ -45,13 +45,21 @@ const styles = {
     border: '1px solid #333',
     display: 'flex',
     flexDirection: 'column',
-    height: '420px', // Altura fixa e padronizada para todos os cards
+    height: '420px',
+  },
+  imageContainer: {
+    width: '100%',
+    height: '220px',
+    backgroundColor: '#0a0a0a', // Fundo escuro para emoldurar a foto sem cortes
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
   },
   image: {
     width: '100%',
-    height: '220px', // Altura fixa da imagem
-    objectFit: 'cover',
-    backgroundColor: '#111',
+    height: '100%',
+    objectFit: 'contain', // Exibe a foto inteira sem cortar nenhuma borda
     cursor: 'pointer',
   },
   content: {
@@ -60,20 +68,19 @@ const styles = {
     flexDirection: 'column',
     gap: '6px',
     flex: 1,
-    justifyContent: 'space-between', // Distribui o conteúdo internamente sem esticar o card
+    justifyContent: 'space-between',
   },
   title: {
     margin: 0,
     fontSize: '1rem',
     color: '#fff',
     lineHeight: '1.3',
-    // Trunca textos com mais de 2 linhas
     display: '-webkit-box',
     WebkitLineClamp: 2,
     WebkitBoxOrient: 'vertical',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-    height: '2.6em', 
+    height: '2.6em',
   },
   photographerLink: {
     color: '#d4af37',

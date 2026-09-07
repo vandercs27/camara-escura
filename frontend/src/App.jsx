@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { getHistoricalPhotos, searchPhotographer } from './services/api';
 import { PhotoCard } from './components/PhotoCard';
 import { EraNavbar } from './components/EraNavbar';
+import { Footer } from './components/Footer';
 import { PhotoDetail } from './pages/PhotoDetail';
 import { PhotographerDetail } from './pages/PhotographerDetail';
 import { EraGallery } from './pages/EraGallery';
@@ -22,7 +23,6 @@ function Home() {
       setPhotographerInfo(null);
 
       try {
-        // Tenta buscar se o termo pesquisado pertence a um fotógrafo registrado no Unsplash
         if (term && term !== 'vintage photography') {
           try {
             const profile = await searchPhotographer(term);
@@ -33,11 +33,10 @@ function Home() {
               return;
             }
           } catch (e) {
-            // Se não encontrou o perfil, faz a busca geral por fotos abaixo
+            // Segue para a busca geral caso não encontre um perfil exato
           }
         }
 
-        // Busca geral por palavra-chave ou tema
         const data = await getHistoricalPhotos(term);
         setPhotos(Array.isArray(data) ? data : []);
       } catch (error) {
@@ -62,7 +61,7 @@ function Home() {
         <EraNavbar />
       </header>
 
-      <main>
+      <main style={styles.main}>
         {photographerInfo ? (
           <div style={styles.photographerHeader}>
             {photographerInfo.profileImage && (
@@ -94,6 +93,8 @@ function Home() {
           </div>
         )}
       </main>
+
+      <Footer />
     </div>
   );
 }
@@ -114,14 +115,15 @@ const styles = {
     backgroundColor: '#0f0f0f',
     color: '#e0e0e0',
     minHeight: '100vh',
-    padding: '32px 10%',
+    display: 'flex',
+    flexDirection: 'column',
     fontFamily: 'sans-serif',
   },
   header: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginBottom: '32px',
+    padding: '32px 10% 0 10%',
     borderBottom: '1px solid #222',
   },
   logo: {
@@ -140,6 +142,10 @@ const styles = {
     color: '#d4af37',
     fontStyle: 'italic',
     marginTop: '8px',
+  },
+  main: {
+    padding: '32px 10%',
+    flex: 1,
   },
   sectionTitle: {
     fontSize: '1.4rem',
