@@ -1,25 +1,36 @@
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
+const path = require('path');
+const fs = require('fs');
+const connectDB = require('./config/db');
 
-// 1. Declarar o 'app' primeiro
+const historicalPhotoRoutes = require('./routes/historicalPhotoRoutes');
+const { loginUser } = require('./controllers/authController');
+
 const app = express();
 
-// 2. Middlewares globais
+// Conectar ao MongoDB
+connectDB();
+
 app.use(cors());
 app.use(express.json());
 
-// 3. Importar e registrar as rotas
-const photoRoutes = require('./routes/photoRoutes');
-app.use('/api/photos', photoRoutes);
+// Garantir que a pasta 'uploads' exista
+const uploadDir = path.join(__dirname, '../uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
-// 4. Rota de teste
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', service: 'Câmara Escura API' });
-});
+// Servir a pasta de arquivos estáticos enviadas por upload
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-// 5. Inicialização do servidor
+// Rota de Autenticação
+app.post('/api/auth/login', loginUser);
+
+// Rota de Fotografias
+app.use('/api/photos', historicalPhotoRoutes);
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`[Câmara Escura] Servidor rodando na porta ${PORT}`);
+  console.log(`Servidor rodando na porta ${PORT}`);
 });

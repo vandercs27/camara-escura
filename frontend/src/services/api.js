@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-// URL do back-end no Render com fallback direto e remoção de barras sobressalentes
-const RAW_URL = import.meta.env.VITE_API_URL || 'https://camara-escura-backend.onrender.com/api';
-const API_URL = RAW_URL.replace(/\/+$/, '');
+// Aponta para a porta 5000 onde seu servidor Node está rodando localmente
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const api = axios.create({
   baseURL: API_URL,

@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export function EraNavbar() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const navigate = useNavigate();
+  const location = useLocation();
 
   const eras = [
     { id: 'todas', label: 'Todas as Épocas', path: '/' },
@@ -14,104 +12,57 @@ export function EraNavbar() {
     { id: 'contemporanea', label: 'Contemporânea', path: '/epoca/contemporanea' },
   ];
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      // Redireciona para a busca geral
-      navigate(`/?search=${encodeURIComponent(searchQuery)}`);
-    }
-  };
-
   return (
-    <div style={styles.headerContainer}>
-      {/* Formulário de Busca por Foto, Estilo ou Fotógrafo */}
-      <form onSubmit={handleSearch} style={styles.searchForm}>
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Buscar foto, tema ou username de fotógrafo..."
-          style={styles.searchInput}
-        />
-        <button type="submit" style={styles.searchButton}>
-          Pesquisar
-        </button>
-      </form>
+    <nav style={styles.container}>
+      {eras.map((item) => {
+        // Compara o caminho atual do navegador com o caminho do item
+        const isActive =
+          location.pathname === item.path ||
+          (item.path === '/' && location.pathname === '');
 
-      {/* Menu de Épocas */}
-      <nav style={styles.nav}>
-        {eras.map((era) => (
-          <NavLink
-            key={era.id}
-            to={era.path}
-            style={({ isActive }) => ({
-              ...styles.link,
-              ...(isActive ? styles.activeLink : {}),
-            })}
+        return (
+          <Link
+            key={item.id}
+            to={item.path}
+            style={{
+              ...styles.tabLink,
+              ...(isActive ? styles.activeTabLink : {}),
+            }}
           >
-            {era.label}
-          </NavLink>
-        ))}
-      </nav>
-    </div>
+            {item.label}
+          </Link>
+        );
+      })}
+    </nav>
   );
 }
 
 const styles = {
-  headerContainer: {
+  container: {
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: '16px',
-    width: '100%',
-    margin: '16px 0',
-  },
-  searchForm: {
-    display: 'flex',
-    gap: '8px',
-    width: '100%',
-    maxWidth: '520px',
-  },
-  searchInput: {
-    flex: 1,
-    padding: '10px 16px',
-    borderRadius: '4px',
-    border: '1px solid #333',
-    backgroundColor: '#1a1a1a',
-    color: '#fff',
-    fontSize: '0.9rem',
-    outline: 'none',
-  },
-  searchButton: {
-    padding: '10px 20px',
-    backgroundColor: '#d4af37',
-    color: '#0f0f0f',
-    border: 'none',
-    borderRadius: '4px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    fontSize: '0.9rem',
-  },
-  nav: {
-    display: 'flex',
-    gap: '10px',
+    gap: '12px',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    margin: '20px 0',
+    position: 'relative',
+    zIndex: 10,
   },
-  link: {
-    color: '#aaa',
-    textDecoration: 'none',
-    padding: '6px 14px',
+  tabLink: {
+    padding: '10px 20px',
     borderRadius: '20px',
-    backgroundColor: '#1a1a1a',
     border: '1px solid #333',
-    fontSize: '0.85rem',
+    backgroundColor: '#1a1a1a',
+    color: '#ccc',
+    textDecoration: 'none',
+    fontSize: '0.9rem',
+    cursor: 'pointer',
+    display: 'inline-block',
     transition: 'all 0.2s ease',
   },
-  activeLink: {
-    color: '#0f0f0f',
-    backgroundColor: '#d4af37',
-    borderColor: '#d4af37',
+  activeTabLink: {
+    backgroundColor: '#e5ba43',
+    color: '#000',
     fontWeight: 'bold',
+    borderColor: '#e5ba43',
   },
 };

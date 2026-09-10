@@ -36,7 +36,11 @@ export function PhotographerDetail() {
 
       <div style={styles.profileHeader}>
         {photographer.profileImage && (
-          <img src={photographer.profileImage} alt={photographer.name} style={styles.avatar} />
+          <img 
+  src={photo.imageUrl} 
+  alt={photo.title} 
+  referrerPolicy="no-referrer" 
+/>
         )}
         <div>
           <h1 style={styles.name}>{photographer.name}</h1>

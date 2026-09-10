@@ -1,89 +1,147 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { getPhotoById } from '../services/api';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 
 export function PhotoDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [photo, setPhoto] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [deleting, setDeleting] = useState(false);
+
+  const adminUser = JSON.parse(localStorage.getItem('adminUser'));
 
   useEffect(() => {
-    async function loadPhoto() {
+    async function fetchPhotoDetail() {
       try {
-        const data = await getPhotoById(id);
+        setLoading(true);
+        setError(null);
+
+        const response = await fetch(`http://localhost:5000/api/photos/${id}`);
+
+        if (!response.ok) {
+          throw new Error(`Erro ao carregar fotografia (${response.status})`);
+        }
+
+        const data = await response.json();
+        if (!data || Object.keys(data).length === 0) {
+          throw new Error('Fotografia não encontrada.');
+        }
+
         setPhoto(data);
-      } catch (error) {
-        console.error('Erro ao carregar detalhes da foto:', error);
+      } catch (err) {
+        setError(err.message);
       } finally {
         setLoading(false);
       }
     }
-    loadPhoto();
+
+    if (id) {
+      fetchPhotoDetail();
+    }
   }, [id]);
 
+  const handleDelete = async () => {
+    const confirmed = window.confirm('Tem certeza de que deseja remover esta fotografia do acervo?');
+    if (!confirmed) return;
+
+    setDeleting(true);
+
+    try {
+      const storedUser = JSON.parse(localStorage.getItem('adminUser'));
+      const token = storedUser?.token;
+
+      const response = await fetch(`http://localhost:5000/api/photos/${photo._id || photo.id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Erro ao deletar fotografia.');
+      }
+
+      alert('Fotografia removida com sucesso!');
+      navigate('/');
+    } catch (err) {
+      alert(err.message);
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   if (loading) {
+    return <div style={{ textAlign: 'center', padding: '60px', color: '#ccc' }}>Carregando obra...</div>;
+  }
+
+  if (error || !photo) {
     return (
-      <div style={styles.container}>
-        <p style={{ color: '#888' }}>Carregando ficha técnica e metadados...</p>
+      <div style={{ textAlign: 'center', padding: '60px', color: '#ccc' }}>
+        <p style={{ color: '#e74c3c' }}>{error || 'Obra não localizada.'}</p>
+        <Link to="/" style={{ color: '#e5ba43' }}>← Voltar para a Galeria Principal</Link>
       </div>
     );
   }
 
-  if (!photo) {
-    return (
-      <div style={styles.container}>
-        <p style={{ color: '#e53935' }}>Fotografia não encontrada.</p>
-        <Link to="/" style={styles.backButton}>← Voltar ao Acervo</Link>
-      </div>
-    );
-  }
+  const photoId = photo._id || photo.id;
 
   return (
     <div style={styles.container}>
-      <Link to="/" style={styles.backButton}>← Voltar ao Acervo</Link>
+      <div style={styles.topActions}>
+        <Link to="/" style={styles.backLink}>← Voltar ao acervo</Link>
 
-      <div style={styles.contentGrid}>
-        {/* Imagem em Destaque */}
-        <div style={styles.imageWrapper}>
-          <img src={photo.imageUrl} alt={photo.title} style={styles.image} />
+        {adminUser && adminUser.token && (
+          <div style={styles.adminButtons}>
+            <Link to={`/admin/editar/${photoId}`} style={styles.editBtn}>
+              Editar
+            </Link>
+            <button onClick={handleDelete} disabled={deleting} style={styles.deleteBtn}>
+              {deleting ? 'Removendo...' : 'Excluir Foto'}
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div style={styles.grid}>
+        <div style={styles.imageColumn}>
+          <img
+            src={photo.imageUrl}
+            alt={photo.title || 'Fotografia'}
+            style={styles.image}
+            onError={(e) => {
+              e.target.src = 'https://via.placeholder.com/600x400?text=Imagem+Indispon%C3%ADvel';
+            }}
+          />
         </div>
 
-        {/* Informações e Ficha Técnica */}
-        <div style={styles.infoWrapper}>
-          <h1 style={styles.title}>{photo.title}</h1>
+        <div style={styles.infoColumn}>
+          <h2 style={styles.title}>{photo.title}</h2>
+          <p style={styles.author}>
+            {photo.photographer} ({photo.year})
+          </p>
 
-          {/* Nome e Link do Fotógrafo */}
-          <div style={styles.photographerBox}>
-            <span style={styles.photographerLabel}>Autor:</span>
-            {photo.username ? (
-              <Link to={`/fotografo/${photo.username}`} style={styles.photographerLink}>
-                👤 {photo.photographer}
-              </Link>
-            ) : (
-              <span style={styles.photographerName}>{photo.photographer}</span>
-            )}
-            <p style={styles.photographerBio}>{photo.photographerBio}</p>
+          <div style={styles.badgeContainer}>
+            <span style={styles.badge}>Mídia: {photo.medium || 'N/A'}</span>
+            <span style={styles.badge}>Época: {photo.era || 'N/A'}</span>
           </div>
 
           <hr style={styles.divider} />
 
-          {/* Ficha Técnica / EXIF */}
-          <div style={styles.section}>
-            <h3 style={styles.sectionTitle}>📷 Ficha Técnica (EXIF)</h3>
-            <p style={styles.text}>{photo.technicalNotes}</p>
-          </div>
+          <section style={styles.section}>
+            <h3 style={styles.sectionTitle}>Contexto Histórico</h3>
+            <p style={styles.text}>
+              {photo.historicalContext || 'Contexto histórico em fase de catalogação.'}
+            </p>
+          </section>
 
-          {/* Dados de Composição */}
-          <div style={styles.section}>
-            <h3 style={styles.sectionTitle}>📐 Análise & Localização</h3>
-            <p style={styles.text}>{photo.compositionAnalysis}</p>
-          </div>
-
-          {/* Período */}
-          <div style={styles.section}>
-            <h3 style={styles.sectionTitle}>🗓️ Ano / Período</h3>
-            <span style={styles.tag}>{photo.year}</span>
-          </div>
+          <section style={styles.section}>
+            <h3 style={styles.sectionTitle}>Biografia do Fotógrafo</h3>
+            <p style={styles.text}>
+              {photo.photographerBio || 'Informações biográficas não informadas.'}
+            </p>
+          </section>
         </div>
       </div>
     </div>
@@ -92,105 +150,114 @@ export function PhotoDetail() {
 
 const styles = {
   container: {
-    backgroundColor: '#0f0f0f',
-    color: '#e0e0e0',
-    minHeight: '100vh',
-    padding: '32px 10%',
-    fontFamily: 'sans-serif',
+    maxWidth: '1100px',
+    margin: '30px auto',
+    padding: '0 20px',
+    color: '#fff',
   },
-  backButton: {
-    color: '#d4af37',
+  topActions: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '20px',
+  },
+  adminButtons: {
+    display: 'flex',
+    gap: '10px',
+  },
+  backLink: {
+    color: '#e5ba43',
     textDecoration: 'none',
-    display: 'inline-block',
-    marginBottom: '24px',
     fontSize: '0.95rem',
+    fontWeight: 'bold',
   },
-  contentGrid: {
+  editBtn: {
+    backgroundColor: '#e5ba43',
+    color: '#000',
+    padding: '8px 16px',
+    borderRadius: '4px',
+    textDecoration: 'none',
+    fontWeight: 'bold',
+    fontSize: '0.9rem',
+  },
+  deleteBtn: {
+    backgroundColor: '#e74c3c',
+    color: '#fff',
+    border: 'none',
+    padding: '8px 16px',
+    borderRadius: '4px',
+    fontWeight: 'bold',
+    fontSize: '0.9rem',
+    cursor: 'pointer',
+  },
+  grid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
     gap: '40px',
     alignItems: 'start',
   },
-  imageWrapper: {
-    backgroundColor: '#181818',
-    padding: '12px',
+  imageColumn: {
+    backgroundColor: '#111',
     borderRadius: '8px',
+    padding: '12px',
     border: '1px solid #222',
   },
   image: {
     width: '100%',
-    maxHeight: '75vh',
+    height: 'auto',
+    maxHeight: '600px',
     objectFit: 'contain',
     borderRadius: '4px',
     display: 'block',
   },
-  infoWrapper: {
+  infoColumn: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '20px',
   },
   title: {
-    fontSize: '2rem',
-    color: '#fff',
-    margin: 0,
-    lineHeight: '1.2',
+    fontSize: '2.2rem',
+    margin: '0 0 6px 0',
+    fontWeight: '600',
   },
-  photographerBox: {
-    backgroundColor: '#181818',
-    padding: '16px',
-    borderRadius: '6px',
-    border: '1px solid #2a2a2a',
+  author: {
+    color: '#e5ba43',
+    fontSize: '1.2rem',
+    fontStyle: 'italic',
+    margin: '0 0 16px 0',
   },
-  photographerLabel: {
-    color: '#888',
+  badgeContainer: {
+    display: 'flex',
+    gap: '10px',
+    flexWrap: 'wrap',
+    marginBottom: '10px',
+  },
+  badge: {
+    backgroundColor: '#222',
+    border: '1px solid #333',
+    padding: '4px 10px',
+    borderRadius: '4px',
     fontSize: '0.85rem',
-    display: 'block',
-    marginBottom: '4px',
-  },
-  photographerLink: {
-    color: '#d4af37',
-    textDecoration: 'none',
-    fontSize: '1.2rem',
-    fontWeight: 'bold',
-  },
-  photographerName: {
-    color: '#d4af37',
-    fontSize: '1.2rem',
-    fontWeight: 'bold',
-  },
-  photographerBio: {
-    color: '#bbb',
-    fontSize: '0.9rem',
-    marginTop: '8px',
-    marginBottom: 0,
-    lineHeight: '1.4',
+    color: '#aaa',
   },
   divider: {
-    borderColor: '#222',
-    margin: '10px 0',
+    borderColor: '#333',
+    margin: '20px 0',
+    width: '100%',
   },
   section: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '6px',
+    marginBottom: '20px',
   },
   sectionTitle: {
-    fontSize: '1rem',
-    color: '#d4af37',
-    margin: 0,
+    fontSize: '1.1rem',
+    color: '#fff',
+    marginBottom: '8px',
+    borderLeft: '3px solid #e5ba43',
+    paddingLeft: '8px',
   },
   text: {
     color: '#ccc',
+    lineHeight: '1.6',
     fontSize: '0.95rem',
-    lineHeight: '1.5',
     margin: 0,
-  },
-  tag: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#2a2a2a',
-    color: '#d4af37',
-    padding: '4px 12px',
-    borderRadius: '4px',
-    fontSize: '0.85rem',
   },
 };

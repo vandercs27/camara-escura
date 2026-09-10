@@ -1,109 +1,155 @@
-import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { getPhotosByEra } from '../services/api';
-import { PhotoCard } from '../components/PhotoCard';
-import { EraNavbar } from '../components/EraNavbar';
+import { useState, useEffect } from 'react';
+import { useParams, useSearchParams, Link } from 'react-router-dom';
 
 export function EraGallery() {
   const { era } = useParams();
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get('search') || '';
+
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const eraTitles = {
-    'seculo-19': 'Século XIX — Primeiros Daguerreótipos e Heliografias',
-    'anos-1900-1920': '1900 a 1920 — Pictorialismo e Documentarismo Social',
-    'anos-1930-1950': '1930 a 1950 — Era de Ouro do Fotojornalismo',
-    'anos-1960-1980': '1960 a 1980 — Fotografia Analógica e Pop',
-    'contemporanea': 'Fotografia Contemporânea e Arte Digital',
-  };
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function loadEraPhotos() {
+    async function fetchPhotos() {
       setLoading(true);
+      setError(null);
       try {
-        const data = await getPhotosByEra(era);
-        setPhotos(data);
-      } catch (error) {
-        console.error('Erro ao carregar acervo da época:', error);
+        const eraParam = era ? era : 'todas';
+        const response = await fetch(`http://localhost:5000/api/photos/era/${eraParam}`);
+
+        if (!response.ok) {
+          throw new Error(`Falha na resposta do servidor (${response.status})`);
+        }
+
+        const data = await response.json();
+
+        if (Array.isArray(data)) {
+          setPhotos(data);
+        } else {
+          setPhotos([]);
+        }
+      } catch (err) {
+        console.error('Erro ao carregar acervo:', err);
+        setError('Não foi possível conectar ao servidor do acervo.');
+        setPhotos([]);
       } finally {
         setLoading(false);
       }
     }
-    loadEraPhotos();
+
+    fetchPhotos();
   }, [era]);
+
+  const filteredPhotos = (photos || []).filter((photo) => {
+    if (!searchQuery) return true;
+    const term = searchQuery.toLowerCase();
+    const titleMatch = photo?.title?.toLowerCase().includes(term);
+    const authorMatch = photo?.photographer?.toLowerCase().includes(term);
+    const mediumMatch = photo?.medium?.toLowerCase().includes(term);
+    return titleMatch || authorMatch || mediumMatch;
+  });
+
+  if (loading) {
+    return <div style={styles.message}>Carregando acervo histórico...</div>;
+  }
+
+  if (error) {
+    return <div style={{ ...styles.message, color: '#e74c3c' }}>{error}</div>;
+  }
 
   return (
     <div style={styles.container}>
-      <header style={styles.header}>
-        <Link to="/" style={{ textDecoration: 'none' }}>
-          <img src="/logo.jpg" alt="Câmara Escura" style={styles.logo} />
-        </Link>
-        <h1 style={styles.brandTitle}>Câmara Escura</h1>
-        <p style={styles.tagline}>Navegação Histórica por Época</p>
+      {searchQuery && (
+        <p style={styles.searchInfo}>
+          Exibindo resultados para: <strong>"{searchQuery}"</strong> ({filteredPhotos.length} encontrada(s))
+        </p>
+      )}
 
-        <EraNavbar />
-      </header>
+     {filteredPhotos.length === 0 ? (
+  <div style={styles.message}>Nenhuma fotografia encontrada para essa seleção.</div>
+) : (
+  <div style={styles.grid}>
+    {filteredPhotos.map((photo) => {
+      const photoId = photo._id || photo.id;
 
-      <main>
-        <h2 style={styles.sectionTitle}>{eraTitles[era] || 'Acervo por Época'}</h2>
-
-        {loading ? (
-          <p style={styles.loading}>Filtrando acervo histórico...</p>
-        ) : (
-          <div style={styles.grid}>
-            {photos.map((photo) => (
-              <PhotoCard key={photo.id} photo={photo} />
-            ))}
+      return (
+        <Link key={photoId} to={`/foto/${photoId}`} style={styles.card}>
+          <img
+            src={photo.imageUrl || 'https://via.placeholder.com/400x300?text=Sem+Imagem'}
+            alt={photo.title || 'Fotografia'}
+            style={styles.image}
+          />
+          <div style={styles.cardInfo}>
+            <h3 style={styles.cardTitle}>{photo.title || 'Título Indisponível'}</h3>
+            <p style={styles.cardAuthor}>
+              {photo.photographer || 'Autor Desconhecido'} {photo.year ? `(${photo.year})` : ''}
+            </p>
+            {photo.medium && <span style={styles.cardMedium}>{photo.medium}</span>}
           </div>
-        )}
-      </main>
+        </Link>
+      );
+    })}
+  </div>
+)}
     </div>
   );
 }
 
 const styles = {
   container: {
-    backgroundColor: '#0f0f0f',
-    color: '#e0e0e0',
-    minHeight: '100vh',
-    padding: '32px 10%',
-    fontFamily: 'sans-serif',
+    padding: '20px 5%',
   },
-  header: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginBottom: '32px',
-    borderBottom: '1px solid #222',
+  searchInfo: {
+    textAlign: 'center',
+    color: '#e5ba43',
+    marginBottom: '20px',
+    fontSize: '1rem',
   },
-  logo: {
-    width: '160px',
-    height: 'auto',
-    borderRadius: '8px',
-    marginBottom: '12px',
-  },
-  brandTitle: {
-    fontSize: '2.2rem',
-    color: '#f0f0f0',
-    margin: 0,
-  },
-  tagline: {
-    fontSize: '0.95rem',
-    color: '#d4af37',
-    fontStyle: 'italic',
-    marginTop: '6px',
-  },
-  sectionTitle: {
-    fontSize: '1.3rem',
-    marginBottom: '24px',
-    color: '#ccc',
-  },
-  loading: {
+  message: {
+    textAlign: 'center',
     color: '#888',
+    padding: '40px 0',
+    fontSize: '1.1rem',
   },
   grid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
     gap: '24px',
+  },
+  card: {
+    backgroundColor: '#1a1a1a',
+    borderRadius: '12px',
+    overflow: 'hidden',
+    border: '1px solid #2a2a2a',
+    textDecoration: 'none',
+    color: 'inherit',
+    transition: 'transform 0.2s ease, border-color 0.2s ease',
+  },
+  image: {
+    width: '100%',
+    height: '220px',
+    objectFit: 'cover',
+  },
+  cardInfo: {
+    padding: '16px',
+  },
+  cardTitle: {
+    fontSize: '1.1rem',
+    margin: '0 0 8px 0',
+    color: '#fff',
+  },
+  cardAuthor: {
+    fontSize: '0.9rem',
+    color: '#aaa',
+    margin: '0 0 8px 0',
+  },
+  cardMedium: {
+    fontSize: '0.8rem',
+    color: '#e5ba43',
+    backgroundColor: '#262215',
+    padding: '4px 8px',
+    borderRadius: '4px',
+    display: 'inline-block',
   },
 };

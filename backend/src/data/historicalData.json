@@ -1,0 +1,324 @@
+{
+
+    
+  "seculo-19": [
+    {
+      "id": "sec19-05",
+      "title": "The Horse in Motion",
+      "photographer": "Eadweard Muybridge",
+      "year": "1878",
+      "medium": "Placa de gelatina e prata",
+      "imageUrl": "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&auto=format&fit=crop",
+      "historicalContext": "Série cronofotográfica revolucionária que provou que as quatro patas do cavalo saem do chão ao galopar.",
+      "photographerBio": "Fotógrafo inglês pioneiro nos estudos do movimento animal e humano."
+    },
+    {
+      "id": "sec19-06",
+      "title": "Caravana no Egito",
+      "photographer": "Maxime Du Camp",
+      "year": "1850",
+      "medium": "Calótipo em papel salgado",
+      "imageUrl": "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=800&auto=format&fit=crop",
+      "historicalContext": "Documentação pioneira dos monumentos e paisagens do Oriente Médio encomendada pelo governo francês.",
+      "photographerBio": "Jornalista, escritor e fotógrafo francês."
+    },
+    {
+      "id": "sec19-07",
+      "title": "Retrato de Sarah Bernhardt",
+      "photographer": "Félix Nadar",
+      "year": "1864",
+      "medium": "Placa de colódio sobre vidro",
+      "imageUrl": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&auto=format&fit=crop",
+      "historicalContext": "Retrato clássico da renomada atriz francesa, marcando a estética de estúdio do século XIX.",
+      "photographerBio": "Caricaturista e um dos fotógrafos de retrato mais influentes de Paris."
+    },
+    {
+      "id": "sec19-08",
+      "title": "Catedral de Notre-Dame",
+      "photographer": "Édouard Baldus",
+      "year": "1853",
+      "medium": "Papel salgado de negativo de papel",
+      "imageUrl": "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=800&auto=format&fit=crop",
+      "historicalContext": "Registro de arquitetura encomendado para documentar os monumentos históricos da França.",
+      "photographerBio": "Fotógrafo germano-francês especialista em arquitetura e obras públicas."
+    },
+   {
+      "id": "sec19-04",
+      "title": "O Vale da Sombra da Morte",
+      "photographer": "Roger Fenton",
+      "year": "1855",
+      "medium": "Processo de colódio úmido",
+      "imageUrl": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=800&auto=format&fit=crop",
+      "historicalContext": "Uma das imagens mais emblemáticas da Guerra da Crimeia, retratando o terreno coberto por balas de canhão.",
+      "photographerBio": "Pioneiro da fotografia de guerra britânica."
+    },
+    {
+      "id": "sec19-02",
+      "title": "Boulevard du Temple",
+      "photographer": "Louis Daguerre",
+      "year": "1838",
+      "medium": "Daguerreótipo",
+      "imageUrl": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop",
+      "historicalContext": "Primeira fotografia a capturar a silhueta de um ser humano em Paris graças à longa exposição.",
+      "photographerBio": "Pintor e inventor francês, criador do processo comercial do daguerreótipo."
+    },
+    {
+      "id": "sec19-03",
+      "title": "Retrato de Abraham Lincoln",
+      "photographer": "Alexander Gardner",
+      "year": "1865",
+      "medium": "Placa úmida de colódio",
+      "imageUrl": "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=800&auto=format&fit=crop",
+      "historicalContext": "Registro definitivo tirado dias antes do assassinato do presidente norte-americano.",
+      "photographerBio": "Fotógrafo escocês famoso pela documentação da Guerra Civil Americana."
+    },
+    {
+      "id": "sec19-04",
+      "title": "O Vale da Sombra da Morte",
+      "photographer": "Roger Fenton",
+      "year": "1855",
+      "medium": "Processo de colódio úmido",
+      "imageUrl": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=800&auto=format&fit=crop",
+      "historicalContext": "Uma das imagens mais emblemáticas da Guerra da Crimeia, retratando o terreno coberto por balas de canhão.",
+      "photographerBio": "Pioneiro da fotografia de guerra britânica."
+    },
+    
+    
+    {
+      "id": "sec19-01",
+      "title": "Point de vue du Gras",
+      "photographer": "Joseph Nicéphore Niépce",
+      "year": "1826",
+      "medium": "Heliografia em placa de peltre",
+      "imageUrl": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&auto=format&fit=crop",
+      "historicalContext": "Considerada a primeira fotografia permanente da história tirada a partir de uma janela em Saint-Loup-de-Varennes.",
+      "photographerBio": "Inventor francês responsável pelos primeiros experimentos heliográficos bem-sucedidos."
+    },
+
+    {
+      "id": "cont-03",
+      "title": "Genesis: Preservation",
+      "photographer": "Lélia Wanick Salgado & Sebastião Salgado",
+      "year": "2013",
+      "medium": "Fotografia Digital / Impressão P&B Fine Art",
+      "imageUrl": "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=800&auto=format&fit=crop",
+      "historicalContext": "Projeto épico que registrou paisagens, fauna e comunidades isoladas que permaneceram intocadas pela modernidade.",
+      "photographerBio": "Casal de ativistas e idealizadores do Instituto Terra no Brasil."
+    },
+
+    {
+      "id": "cont-02",
+      "title": "Rhein II",
+      "photographer": "Andreas Gursky",
+      "year": "1999",
+      "medium": "Impressão C-print montada em acrílico",
+      "imageUrl": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop",
+      "historicalContext": "Paisagem minimalista do rio Reno com manipulação digital que quebrou recordes em leilões de arte.",
+      "photographerBio": "Fotógrafo alemão famoso por suas fotografias em grande escala de paisagens e arquiteturas hiperestruturadas."
+    },
+    {
+      "id": "sec19-02",
+      "title": "Boulevard du Temple",
+      "photographer": "Louis Daguerre",
+      "year": "1838",
+      "medium": "Daguerreótipo",
+      "imageUrl": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop",
+      "historicalContext": "Primeira fotografia a capturar a silhueta de um ser humano em Paris graças à longa exposição.",
+      "photographerBio": "Pintor e inventor francês, criador do processo comercial do daguerreótipo."
+    }
+    
+  ],
+  "anos-1900-1920": [
+    {
+      "id": "1900-02",
+      "title": "The Flatiron Building",
+      "photographer": "Edward Steichen",
+      "year": "1904",
+      "medium": "Goma bicromatada",
+      "imageUrl": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=800&auto=format&fit=crop",
+      "historicalContext": "Exemplo marcante do Pictorialismo transformando paisagens urbanas de Nova York em obras artísticas.",
+      "photographerBio": "Pioneiro do pictorialismo e da fotografia de moda no século XX."
+    },
+    {
+      "id": "1900-03",
+      "title": "The Steerage (A Terceira Classe)",
+      "photographer": "Alfred Stieglitz",
+      "year": "1907",
+      "medium": "Fotogravura",
+      "imageUrl": "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=800&auto=format&fit=crop",
+      "historicalContext": "Considerada a primeira obra-prima da fotografia moderna, capturando formas geométricas e classes sociais.",
+      "photographerBio": "Fotógrafo norte-americano fundamental para a aceitação da fotografia como arte moderna."
+    },
+    
+    {
+      "id": "1900-05",
+      "title": "A Imigrante e seus Filhos na Ilha Ellis",
+      "photographer": "Augustus Sherman",
+      "year": "1905",
+      "medium": "Impressão em gelatina e prata",
+      "imageUrl": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&auto=format&fit=crop",
+      "historicalContext": "Registro das vestimentas e costumes dos imigrantes que chegavam aos EUA pelo posto da Ellis Island.",
+      "photographerBio": "Clérigo e funcionário chefe de registro na Ilha Ellis."
+    },
+    
+    {
+      "id": "1900-07",
+      "title": "Linha de Montagem da Ford",
+      "photographer": "Arquivo Ford Motor",
+      "year": "1913",
+      "medium": "Gelatina e prata",
+      "imageUrl": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop",
+      "historicalContext": "Fotografia industrial demonstrando o início da produção em massa do Model T.",
+      "photographerBio": "Documentaristas industriais da Ford Motor Company."
+    },
+    
+    {
+      "id": "1900-02",
+      "title": "The Flatiron Building",
+      "photographer": "Edward Steichen",
+      "year": "1904",
+      "medium": "Goma bicromatada",
+      "imageUrl": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=800&auto=format&fit=crop",
+      "historicalContext": "Exemplo marcante do Pictorialismo transformando paisagens urbanas de Nova York em obras artísticas.",
+      "photographerBio": "Pioneiro do pictorialismo e da fotografia de moda no século XX."
+    },
+    {
+      "id": "1900-03",
+      "title": "The Steerage (A Terceira Classe)",
+      "photographer": "Alfred Stieglitz",
+      "year": "1907",
+      "medium": "Fotogravura",
+      "imageUrl": "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=800&auto=format&fit=crop",
+      "historicalContext": "Considerada a primeira obra-prima da fotografia moderna, capturando formas geométricas e classes sociais.",
+      "photographerBio": "Fotógrafo norte-americano fundamental para a aceitação da fotografia como arte moderna."
+    },
+    {
+      "id": "1900-04",
+      "title": "Indígena Hopi no Cânion",
+      "photographer": "Edward S. Curtis",
+      "year": "1921",
+      "medium": "Fotogravura em tom sépia",
+      "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&auto=format&fit=crop",
+      "historicalContext": "Parte do projeto 'The North American Indian', catalogando as tradições dos povos nativos norte-americanos.",
+      "photographerBio": "Etnólogo e fotógrafo dedicado à preservação da memória indígena americana."
+    },
+    {
+      "id": "1900-01",
+      "title": "Trabalho Infantil nas Fábricas de Algodão",
+      "photographer": "Lewis Hine",
+      "year": "1908",
+      "medium": "Placa 4x5 em P&B",
+      "imageUrl": "https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=800&auto=format&fit=crop",
+      "historicalContext": "Documentação social decisiva que impulsionou a aprovação das leis trabalhistas infantis nos EUA.",
+      "photographerBio": "Sociólogo e fotógrafo americano que usou a câmera como ferramenta de reforma social."
+    },
+    {
+      "id": "1900-02",
+      "title": "The Flatiron Building",
+      "photographer": "Edward Steichen",
+      "year": "1904",
+      "medium": "Goma bicromatada",
+      "imageUrl": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=800&auto=format&fit=crop",
+      "historicalContext": "Exemplo do Pictorialismo transformando paisagens urbanas em obras pictóricas.",
+      "photographerBio": "Pioneiro do pictorialismo e da fotografia de moda no século XX."
+    }
+  ],
+  "anos-1930-1950": [
+  
+    {
+      "id": "1930-02",
+      "title": "Atrás da Estação Saint-Lazare",
+      "photographer": "Henri Cartier-Bresson",
+      "year": "1932",
+      "medium": "Filme 35mm P&B (Leica)",
+      "imageUrl": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800&auto=format&fit=crop",
+      "historicalContext": "Exemplo clássico da filosofia do 'Instante Decisivo', capturando um homem saltando sobre uma poça d'água.",
+      "photographerBio": "Mestre do fotojornalismo mundial e cofundador da lendária agência Magnum Photos."
+    },
+    {
+      "id": "1930-03",
+      "title": "Almoço no Topo de um Arranha-Céu",
+      "photographer": "Charles C. Ebbets",
+      "year": "1932",
+      "medium": "Negativo em placa de vidro 8x10",
+      "imageUrl": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&auto=format&fit=crop",
+      "historicalContext": "Registra 11 operários almoçando sobre uma viga de aço durante a construção do Rockefeller Center em Nova York.",
+      "photographerBio": "Fotojornalista americano conhecido por seus registros audaciosos da arquitetura novaiorquina."
+    },
+    {
+      "id": "1930-04",
+      "title": "O Menteur",
+      "photographer": "Robert Doisneau",
+      "year": "1950",
+      "medium": "Filme 35mm P&B",
+      "imageUrl": "https://images.unsplash.com/photo-1514565131-fce0801e5785?w=800&auto=format&fit=crop",
+      "historicalContext": "Captura poética e bem-humorada das ruas e cafés da Paris pós-segunda guerra mundial.",
+      "photographerBio": "Fotógrafo humanista francês famoso por retratar o cotidiano das ruas de Paris."
+    },
+    {
+      "id": "1930-01",
+      "title": "Mãe Migrante (Migrant Mother)",
+      "photographer": "Dorothea Lange",
+      "year": "1936",
+      "medium": "Filme nitrato 4x5 P&B",
+      "imageUrl": "https://images.unsplash.com/photo-1544717305-2782549b5136?w=800&auto=format&fit=crop",
+      "historicalContext": "Símbolo universal das dificuldades econômicas durante a Grande Depressão Americana.",
+      "photographerBio": "Fotojornalista documental influente cujas obras humanizaram a crise social dos anos 30."
+    }
+  ],
+  "anos-1960-1980": [
+    {
+      "id": "1960-01",
+      "title": "Earthrise (Nascer da Terra)",
+      "photographer": "William Anders",
+      "year": "1968",
+      "medium": "Hasselblad 500EL / Filme 70mm Colorido",
+      "imageUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop",
+      "historicalContext": "Primeira fotografia colorida da Terra tirada a partir da órbita lunar durante a missão Apollo 8.",
+      "photographerBio": "Astronauta da NASA e oficial da Força Aérea dos Estados Unidos."
+    },
+    {
+      "id": "1960-02",
+      "title": "Menina Afegã",
+      "photographer": "Steve McCurry",
+      "year": "1984",
+      "medium": "Filme Kodachrome 35mm",
+      "imageUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop",
+      "historicalContext": "Retrato marcante de Sharbat Gula num campo de refugiados no Paquistão, capa histórica da National Geographic.",
+      "photographerBio": "Renomado fotojornalista norte-americano famoso pelo uso expressivo das cores."
+    },
+    {
+      "id": "1960-03",
+      "title": "Identidades Urbanas",
+      "photographer": "Gordon Parks",
+      "year": "1968",
+      "medium": "Filme 35mm P&B",
+      "imageUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&auto=format&fit=crop",
+      "historicalContext": "Ensaio visual profundo sobre os direitos civis, pobreza e a experiência afro-americana nos EUA.",
+      "photographerBio": "Fotógrafo, músico e cineasta, primeiro fotojornalista negro da revista Life."
+    },
+    {
+      "id": "1960-01",
+      "title": "Earthrise (Missão Apollo 8)",
+      "photographer": "William Anders",
+      "year": "1968",
+      "medium": "Hasselblad 500EL / 70mm",
+      "imageUrl": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop",
+      "historicalContext": "Primeira imagem colorida da Terra vista da órbita lunar.",
+      "photographerBio": "Astronauta da NASA."
+    }
+  ],
+  "contemporanea": [
+ 
+    {
+      "id": "cont-01",
+      "title": "Minas de Ouro de Serra Pelada",
+      "photographer": "Sebastião Salgado",
+      "year": "1986",
+      "medium": "Leica M4 / Filme P&B Tri-X",
+      "imageUrl": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&auto=format&fit=crop",
+      "historicalContext": "Série impressionante sobre a corrida do ouro no Pará, retratando a condição humana em meio ao trabalho manual extremo.",
+      "photographerBio": "Fotógrafo documental brasileiro reconhecido internacionalmente por projetos sócio-ambientais."
+    }
+  ]
+}

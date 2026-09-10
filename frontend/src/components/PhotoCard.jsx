@@ -1,38 +1,28 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 export function PhotoCard({ photo }) {
+  const photoId = photo._id || photo.id;
+
   return (
     <div style={styles.card}>
-      <Link to={`/foto/${photo.id}`} style={styles.imageContainer}>
-        <img 
-          src={photo.imageUrl} 
-          alt={photo.title} 
-          style={styles.image}
-          loading="lazy"
-        />
+      <Link to={`/foto/${photoId}`} style={styles.link}>
+        <div style={styles.imageContainer}>
+          <img
+            src={photo.imageUrl}
+            alt={photo.title}
+            style={styles.image}
+            onError={(e) => {
+              e.target.src = 'https://via.placeholder.com/400x300?text=Imagem+Indispon%C3%ADvel';
+            }}
+          />
+        </div>
+        <div style={styles.content}>
+          <h3 style={styles.title}>{photo.title}</h3>
+          <p style={styles.meta}>
+            {photo.photographer} • {photo.year}
+          </p>
+        </div>
       </Link>
-      <div style={styles.content}>
-        <h3 style={styles.title} title={photo.title}>
-          {photo.title}
-        </h3>
-
-        {photo.username ? (
-          <Link to={`/fotografo/${photo.username}`} style={styles.photographerLink}>
-            👤 {photo.photographer}
-          </Link>
-        ) : (
-          <p style={styles.photographer}>{photo.photographer}</p>
-        )}
-
-        <p style={styles.year}>{photo.year}</p>
-        
-        {photo.medium && (
-          <span style={styles.tag} title={photo.medium}>
-            {photo.medium}
-          </span>
-        )}
-      </div>
     </div>
   );
 }
@@ -42,78 +32,36 @@ const styles = {
     backgroundColor: '#1a1a1a',
     borderRadius: '8px',
     overflow: 'hidden',
-    border: '1px solid #333',
-    display: 'flex',
-    flexDirection: 'column',
-    height: '420px',
+    border: '1px solid #2a2a2a',
+    transition: 'transform 0.2s ease, border-color 0.2s ease',
+  },
+  link: {
+    textDecoration: 'none',
+    color: 'inherit',
+    display: 'block',
   },
   imageContainer: {
     width: '100%',
-    height: '220px',
-    backgroundColor: '#0a0a0a', // Fundo escuro para emoldurar a foto sem cortes
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: '240px',
+    backgroundColor: '#111',
     overflow: 'hidden',
   },
   image: {
     width: '100%',
     height: '100%',
-    objectFit: 'contain', // Exibe a foto inteira sem cortar nenhuma borda
-    cursor: 'pointer',
+    objectFit: 'cover',
   },
   content: {
     padding: '16px',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '6px',
-    flex: 1,
-    justifyContent: 'space-between',
   },
   title: {
-    margin: 0,
-    fontSize: '1rem',
+    margin: '0 0 6px 0',
+    fontSize: '1.1rem',
     color: '#fff',
-    lineHeight: '1.3',
-    display: '-webkit-box',
-    WebkitLineClamp: 2,
-    WebkitBoxOrient: 'vertical',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    height: '2.6em',
   },
-  photographerLink: {
-    color: '#d4af37',
-    textDecoration: 'none',
-    fontSize: '0.85rem',
-    fontWeight: '500',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-  },
-  photographer: {
+  meta: {
     margin: 0,
-    color: '#aaa',
     fontSize: '0.85rem',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-  },
-  year: {
-    margin: 0,
-    color: '#888',
-    fontSize: '0.8rem',
-  },
-  tag: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#2a2a2a',
-    color: '#d4af37',
-    padding: '4px 8px',
-    borderRadius: '4px',
-    fontSize: '0.75rem',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    maxWidth: '100%',
+    color: '#e5ba43',
   },
 };
