@@ -5,15 +5,27 @@ const getPhotosFromApi = async () => {
 };
 
 const getPhotosByEra = async (eraParam = '') => {
-  if (!eraParam) return await Photo.find({});
-
   const cleanEra = eraParam.toLowerCase().trim();
 
-  if (cleanEra === 'todas' || cleanEra === 'all' || cleanEra === '') {
+  if (!cleanEra || cleanEra === 'todas' || cleanEra === 'all') {
     return await Photo.find({});
   }
 
-  return await Photo.find({ era: cleanEra });
+  // Mapeia os slugs vindos do frontend para o valor exato no banco
+  const eraMap = {
+    'seculo-19': 'Século XIX',
+    '1900-1920': '1900 - 1920',
+    '1930-1950': '1930 - 1950',
+    '1960-1980': '1960 - 1980',
+    'contemporanea': 'Contemporânea'
+  };
+
+  const targetEra = eraMap[cleanEra] || cleanEra;
+
+  // Busca insensível a maiúsculas/minúsculas
+  return await Photo.find({
+    era: new RegExp(`^${targetEra}$`, 'i')
+  });
 };
 
 const getPhotoByIdFromApi = async (id) => {
