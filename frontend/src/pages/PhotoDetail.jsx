@@ -17,7 +17,10 @@ export function PhotoDetail() {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(`http://localhost:5000/api/photos/${id}`);
+      const API_URL = 'https://camara-escura-backend.onrender.com/api';
+const eraParam = era ? era : 'todas';
+// Exemplo no fetch:
+const response = await fetch(`${API_URL}/photos/era/${eraParam}`);
 
         if (!response.ok) {
           throw new Error(`Erro ao carregar fotografia (${response.status})`);

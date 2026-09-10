@@ -35,7 +35,10 @@ export function AdminAddPhoto() {
     if (isEditMode) {
       async function fetchPhotoForEdit() {
         try {
-          const res = await fetch(`http://localhost:5000/api/photos/${id}`);
+        const API_URL = 'https://camara-escura-backend.onrender.com/api';
+const eraParam = era ? era : 'todas';
+// Exemplo no fetch:
+const response = await fetch(`${API_URL}/photos/era/${eraParam}`);
           if (!res.ok) throw new Error('Erro ao carregar dados da fotografia.');
           const data = await res.json();
 

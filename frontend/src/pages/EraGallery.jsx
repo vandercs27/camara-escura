@@ -15,8 +15,11 @@ export function EraGallery() {
       setLoading(true);
       setError(null);
       try {
-        const eraParam = era ? era : 'todas';
-        const response = await fetch(`http://localhost:5000/api/photos/era/${eraParam}`);
+       // Obtém a URL do backend enviada pelo Render (ou usa o localhost como fallback se estiver testando no PC)
+const API_URL = 'https://camara-escura-backend.onrender.com/api';
+
+const eraParam = era ? era : 'todas';
+const response = await fetch(`${API_URL}/photos/era/${eraParam}`);
 
         if (!response.ok) {
           throw new Error(`Falha na resposta do servidor (${response.status})`);
