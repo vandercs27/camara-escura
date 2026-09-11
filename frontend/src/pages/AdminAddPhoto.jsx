@@ -90,19 +90,15 @@ const response = await fetch(`${API_URL}/photos/era/${eraParam}`);
       throw new Error('Informe uma URL de imagem ou selecione um arquivo.');
     }
 
-    const url = isEditMode
-      ? `http://localhost:5000/api/photos/${id}`
-      : 'http://localhost:5000/api/photos';
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
-    const method = isEditMode ? 'PUT' : 'POST';
-
-    const response = await fetch(url, {
-      method,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
+const response = await fetch(`${API_URL}/photos`, {
+  method: isEditMode ? 'PUT' : 'POST',
+  headers: {
+    'Authorization': `Bearer ${token}`
+  },
+  body: formData
+});
 
     const data = await response.json();
 

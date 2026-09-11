@@ -4,6 +4,10 @@ const getPhotosFromApi = async () => {
   return await Photo.find({});
 };
 
+// src/services/historicalPhotoService.js
+
+
+
 const getPhotosByEra = async (eraParam = '') => {
   const cleanEra = eraParam.toLowerCase().trim();
 
@@ -11,20 +15,22 @@ const getPhotosByEra = async (eraParam = '') => {
     return await Photo.find({});
   }
 
-  // Mapeia os slugs vindos do frontend para o valor exato no banco
+  // Mapeia todas as grafias possíveis para buscar no MongoDB
   const eraMap = {
-    'seculo-19': 'Século XIX',
-    '1900-1920': '1900 - 1920',
-    '1930-1950': '1930 - 1950',
-    '1960-1980': '1960 - 1980',
-    'contemporanea': 'Contemporânea'
+    'seculo-19': ['seculo-19', 'Século XIX', 'Século 19'],
+    '1900-1920': ['1900-1920', '1900 - 1920'],
+    '1930-1950': ['1930-1950', '1930 - 1950'],
+    '1960-1980': ['1960-1980', '1960 - 1980'],
+    'contemporanea': ['contemporanea', 'Contemporânea', 'contemporânea']
   };
 
-  const targetEra = eraMap[cleanEra] || cleanEra;
+  const possibleValues = eraMap[cleanEra] || [cleanEra];
 
-  // Busca insensível a maiúsculas/minúsculas
+  // Busca qualquer variação usando expressões regulares insensíveis a maiúsculas/minúsculas
   return await Photo.find({
-    era: new RegExp(`^${targetEra}$`, 'i')
+    era: { 
+      $in: possibleValues.map(val => new RegExp(`^${val}$`, 'i')) 
+    }
   });
 };
 

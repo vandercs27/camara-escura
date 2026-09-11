@@ -16,7 +16,7 @@ export function EraGallery() {
       setError(null);
       try {
        // Obtém a URL do backend enviada pelo Render (ou usa o localhost como fallback se estiver testando no PC)
-const API_URL = 'https://camara-escura-backend.onrender.com/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const eraParam = era ? era : 'todas';
 const response = await fetch(`${API_URL}/photos/era/${eraParam}`);
@@ -100,59 +100,72 @@ const response = await fetch(`${API_URL}/photos/era/${eraParam}`);
 }
 
 const styles = {
-  container: {
-    padding: '20px 5%',
-  },
-  searchInfo: {
-    textAlign: 'center',
-    color: '#e5ba43',
-    marginBottom: '20px',
-    fontSize: '1rem',
-  },
-  message: {
-    textAlign: 'center',
-    color: '#888',
-    padding: '40px 0',
-    fontSize: '1.1rem',
-  },
+  // 1. A grade responsiva dos cards
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
     gap: '24px',
+    maxWidth: '1280px',
+    margin: '0 auto',
+    padding: '0 20px',
   },
+
+  // 2. Estilo do card de cada foto (Link)
   card: {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#141414',
+    border: '1px solid #222',
     borderRadius: '12px',
     overflow: 'hidden',
-    border: '1px solid #2a2a2a',
     textDecoration: 'none',
-    color: 'inherit',
-    transition: 'transform 0.2s ease, border-color 0.2s ease',
+    display: 'flex',
+    flexDirection: 'column',
+    transition: 'all 0.3s ease',
   },
+
+  // 3. Imagem com tamanho e proporção fixos (evita desalinhamento)
   image: {
     width: '100%',
     height: '220px',
     objectFit: 'cover',
+    display: 'block',
+    borderBottom: '1px solid #222',
   },
+
+  // 4. Container de textos dentro do card
   cardInfo: {
     padding: '16px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
+    flexGrow: 1,
   },
+
+  // 5. Título da foto
   cardTitle: {
     fontSize: '1.1rem',
-    margin: '0 0 8px 0',
-    color: '#fff',
+    fontWeight: '600',
+    color: '#ffffff',
+    margin: 0,
+    lineHeight: '1.3',
   },
+
+  // 6. Autor e Ano
   cardAuthor: {
     fontSize: '0.9rem',
-    color: '#aaa',
-    margin: '0 0 8px 0',
-  },
-  cardMedium: {
-    fontSize: '0.8rem',
     color: '#e5ba43',
-    backgroundColor: '#262215',
+    fontStyle: 'italic',
+    margin: 0,
+  },
+
+  // 7. Badge de técnica (Mídia)
+  cardMedium: {
+    alignSelf: 'flex-start',
+    marginTop: 'auto',
+    fontSize: '0.75rem',
+    color: '#aaa',
+    backgroundColor: '#1e1e1e',
+    border: '1px solid #333',
     padding: '4px 8px',
     borderRadius: '4px',
-    display: 'inline-block',
   },
 };

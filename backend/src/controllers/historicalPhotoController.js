@@ -18,16 +18,28 @@ const getPhotosByEra = async (req, res) => {
     return res.status(500).json({ error: 'Erro ao buscar fotos por época' });
   }
 };
+// src/controllers/historicalPhotoController.js
+
+
 
 const getPhotoById = async (req, res) => {
   try {
     const { id } = req.params;
+    
+    // Usar getPhotoByIdFromApi (nome exato exportado no service)
     const photo = await historicalPhotoService.getPhotoByIdFromApi(id);
+
+    if (!photo) {
+      return res.status(404).json({ message: 'Fotografia não encontrada.' });
+    }
+
     return res.status(200).json(photo);
   } catch (error) {
-    return res.status(500).json({ error: 'Erro ao buscar foto' });
+    console.error('Erro no getPhotoById:', error);
+    return res.status(500).json({ error: 'Erro ao buscar detalhes da foto.' });
   }
 };
+
 
 const createPhoto = async (req, res) => {
   try {
@@ -43,12 +55,28 @@ const createPhoto = async (req, res) => {
       return res.status(400).json({ error: 'A URL da imagem ou um arquivo de imagem é obrigatório.' });
     }
 
+    // Mapeamento dos textos do formulário para os slugs padronizados da URL
+    const eraMap = {
+      'século xix': 'seculo-19',
+      'século 19': 'seculo-19',
+      'seculo xix': 'seculo-19',
+      '1900 - 1920': '1900-1920',
+      '1930 - 1950': '1930-1950',
+      '1960 - 1980': '1960-1980',
+      'contemporânea': 'contemporanea',
+      'contemporanea': 'contemporanea'
+    };
+
+    // Converte para minúsculas e remove espaços das extremidades
+    const cleanEra = era ? era.toLowerCase().trim() : '';
+    const formattedEra = eraMap[cleanEra] || era;
+
     const newPhoto = await historicalPhotoService.createPhotoInDb({
       title,
       photographer,
       year,
       medium,
-      era,
+      era: formattedEra, // 👈 Salva o valor sanitizado/normalizado no banco
       historicalContext,
       photographerBio,
       imageUrl: finalImageUrl,
@@ -60,6 +88,7 @@ const createPhoto = async (req, res) => {
     return res.status(500).json({ error: 'Erro ao cadastrar fotografia no acervo.' });
   }
 };
+
 
 
 
