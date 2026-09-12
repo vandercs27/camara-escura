@@ -1,11 +1,9 @@
 import axios from 'axios';
 
-// Aponta para a porta 5000 onde seu servidor Node está rodando localmente
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: 'https://camara-escura-backend.onrender.com/api',
 });
+
 
 export const getHistoricalPhotos = async (query) => {
   const response = await api.get('/photos/historical', { params: { query } });
@@ -30,6 +28,6 @@ export const getPhotographer = async (username) => {
 export const searchPhotographer = async (name) => {
   const response = await api.get('/photos/search-photographer', { params: { name } });
   return response.data;
-};
+}
 
 export default api;
