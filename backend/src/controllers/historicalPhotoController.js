@@ -22,8 +22,8 @@ const getPhotosByEra = async (req, res) => {
 
 const getLicensedHistoricalPhotos = async (req, res) => {
   try {
-    const { query = 'history of photography' } = req.query;
-    const photos = await getHistoricalPhotosFromWiki(String(query));
+    const { query } = req.query;
+    const photos = await getHistoricalPhotosFromWiki(query ? String(query) : undefined);
     return res.status(200).json(photos);
   } catch (error) {
     console.error('Erro ao buscar fotos licenciadas:', error.message);
