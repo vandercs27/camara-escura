@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useSearchParams, Link } from 'react-router-dom';
+import { API_URL, resolveImageUrl } from '../services/api';
 
 export function EraGallery() {
   const { era } = useParams();
@@ -16,8 +17,6 @@ export function EraGallery() {
       setError(null);
       try {
        // Obtém a URL do backend enviada pelo Render (ou usa o localhost como fallback se estiver testando no PC)
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-
 const eraParam = era ? era : 'todas';
 const response = await fetch(`${API_URL}/photos/era/${eraParam}`);
 
@@ -79,7 +78,7 @@ const response = await fetch(`${API_URL}/photos/era/${eraParam}`);
       return (
         <Link key={photoId} to={`/foto/${photoId}`} style={styles.card}>
           <img
-            src={photo.imageUrl || 'https://via.placeholder.com/400x300?text=Sem+Imagem'}
+            src={resolveImageUrl(photo.imageUrl) || 'https://via.placeholder.com/400x300?text=Sem+Imagem'}
             alt={photo.title || 'Fotografia'}
             style={styles.image}
           />

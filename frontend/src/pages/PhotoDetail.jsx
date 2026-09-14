@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { API_URL, resolveImageUrl } from '../services/api';
 
 export function PhotoDetail() {
   const { id } = useParams();
@@ -16,8 +17,6 @@ export function PhotoDetail() {
         setLoading(true);
         setError(null);
 
-        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-        
         // ✅ Busca os detalhes da fotografia pelo ID recebido na URL
         const response = await fetch(`${API_URL}/photos/${id}`);
 
@@ -54,7 +53,7 @@ export function PhotoDetail() {
       const storedUser = JSON.parse(localStorage.getItem('adminUser'));
       const token = storedUser?.token;
 
-      const response = await fetch(`http://localhost:5000/api/photos/${photo._id || photo.id}`, {
+      const response = await fetch(`${API_URL}/photos/${photo._id || photo.id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -110,7 +109,7 @@ export function PhotoDetail() {
       <div style={styles.grid}>
         <div style={styles.imageColumn}>
           <img
-            src={photo.imageUrl}
+            src={resolveImageUrl(photo.imageUrl)}
             alt={photo.title || 'Fotografia'}
             style={styles.image}
             onError={(e) => {

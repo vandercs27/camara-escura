@@ -8,20 +8,21 @@ import { PhotoDetail } from './pages/PhotoDetail';
 import { PhotographerDetail } from './pages/PhotographerDetail';
 import { Login } from './pages/Login';
 import { AdminAddPhoto } from './pages/AdminAddPhoto';
+import './App.css';
 
 export default function App() {
   return (
     <div style={styles.appContainer}>
-      <header style={styles.header}>
-        <div style={styles.headerTop}>
-          <Link to="/" style={styles.brandLink}>
-            <img src={logoImg} alt="Câmara Escura Logo" style={styles.logo} />
+      <header className="site-header" style={styles.header}>
+        <div className="header-top" style={styles.headerTop}>
+          <Link to="/" className="brand-link" style={styles.brandLink}>
+            <img className="brand-logo" src={logoImg} alt="Câmara Escura Logo" style={styles.logo} />
             <div>
-              <h1 style={styles.title}>Câmara Escura</h1>
-              <p style={styles.subtitle}>Estudos & História da Fotografia</p>
+              <h1 className="brand-title" style={styles.title}>Câmara Escura</h1>
+              <p className="brand-subtitle" style={styles.subtitle}>Estudos & História da Fotografia</p>
             </div>
           </Link>
-          <Link to="/login" style={styles.adminLink}>Área Admin</Link>
+          <Link to="/login" className="admin-link" style={styles.adminLink}>Área Admin</Link>
         </div>
 
         <SearchBar />

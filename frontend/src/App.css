@@ -182,3 +182,128 @@
     border-right-color: var(--border);
   }
 }
+.site-header {
+  position: relative;
+  overflow: hidden;
+}
+
+.header-top {
+  max-width: 1280px;
+  margin: 0 auto;
+  gap: 24px;
+}
+
+.brand-link {
+  min-width: 0;
+}
+
+.brand-logo {
+  flex: 0 0 auto;
+  border-radius: 10px;
+}
+
+.brand-title,
+.brand-subtitle {
+  overflow-wrap: anywhere;
+}
+
+.admin-link {
+  flex: 0 0 auto;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.admin-link:hover,
+.admin-link:focus-visible {
+  background-color: #e5ba43;
+  color: #111;
+}
+
+.search-form {
+  margin: 20px auto 18px !important;
+}
+
+.search-input {
+  min-width: 0;
+}
+
+.era-navbar {
+  max-width: 1280px;
+  margin: 18px auto 0 !important;
+  padding: 0 4px;
+  scrollbar-width: thin;
+}
+
+.era-link {
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .site-header {
+    padding: 16px 16px 12px !important;
+  }
+
+  .header-top {
+    align-items: flex-start !important;
+    gap: 14px;
+    margin-bottom: 16px !important;
+  }
+
+  .brand-link {
+    align-items: center;
+    gap: 10px !important;
+  }
+
+  .brand-logo {
+    width: 52px;
+    height: 52px !important;
+    border-radius: 8px;
+  }
+
+  .brand-title {
+    font-size: 1.45rem !important;
+    line-height: 1.1;
+  }
+
+  .brand-subtitle {
+    max-width: 170px;
+    margin-top: 4px !important;
+    font-size: 0.72rem !important;
+    line-height: 1.25;
+  }
+
+  .admin-link {
+    padding: 7px 9px !important;
+    font-size: 0.72rem !important;
+    white-space: nowrap;
+  }
+
+  .search-form {
+    gap: 6px !important;
+    margin: 0 auto 14px !important;
+  }
+
+  .search-input {
+    padding: 10px 12px !important;
+    font-size: 0.85rem !important;
+  }
+
+  .search-button {
+    padding: 10px 13px !important;
+    font-size: 0.8rem !important;
+  }
+
+  .era-navbar {
+    justify-content: flex-start !important;
+    flex-wrap: nowrap !important;
+    gap: 8px !important;
+    margin: 0 -4px !important;
+    padding: 2px 4px 8px;
+    overflow-x: auto;
+  }
+
+  .era-link {
+    flex: 0 0 auto;
+    padding: 8px 13px !important;
+    font-size: 0.78rem !important;
+  }
+}

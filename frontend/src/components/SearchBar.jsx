@@ -18,15 +18,16 @@ export function SearchBar() {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={styles.form}>
+    <form className="search-form" onSubmit={handleSubmit} style={styles.form}>
       <input
         type="text"
         placeholder="Buscar por título, fotógrafo ou técnica..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
+        className="search-input"
         style={styles.input}
       />
-      <button type="submit" style={styles.button}>
+      <button type="submit" className="search-button" style={styles.button}>
         Buscar
       </button>
     </form>

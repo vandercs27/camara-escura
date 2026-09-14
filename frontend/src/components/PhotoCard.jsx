@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { resolveImageUrl } from '../services/api';
 
 export function PhotoCard({ photo }) {
   const photoId = photo._id || photo.id;
@@ -8,7 +9,7 @@ export function PhotoCard({ photo }) {
       <Link to={`/foto/${photoId}`} style={styles.link}>
         <div style={styles.imageContainer}>
           <img
-            src={photo.imageUrl}
+            src={resolveImageUrl(photo.imageUrl)}
             alt={photo.title}
             style={styles.image}
             onError={(e) => {

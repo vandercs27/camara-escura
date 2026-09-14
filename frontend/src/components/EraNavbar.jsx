@@ -13,7 +13,7 @@ export function EraNavbar() {
   ];
 
   return (
-    <nav style={styles.container}>
+    <nav className="era-navbar" style={styles.container}>
       {eras.map((item) => {
         // Compara o caminho atual do navegador com o caminho do item
         const isActive =
@@ -24,6 +24,7 @@ export function EraNavbar() {
           <Link
             key={item.id}
             to={item.path}
+            className="era-link"
             style={{
               ...styles.tabLink,
               ...(isActive ? styles.activeTabLink : {}),

@@ -1,17 +1,41 @@
 import axios from 'axios';
 
+export const API_URL =
+  import.meta.env.VITE_API_URL || 'https://camara-escura-backend.onrender.com/api';
+
 const api = axios.create({
-  baseURL: 'https://camara-escura-backend.onrender.com/api',
+  baseURL: API_URL,
 });
+
+export const resolveImageUrl = (imageUrl) => {
+  if (!imageUrl) return '';
+
+  try {
+    const image = new URL(imageUrl, `${API_URL}/`);
+    const apiOrigin = new URL(API_URL).origin;
+
+    if (
+      image.origin === 'http://localhost:5000' ||
+      image.origin === 'http://127.0.0.1:5000' ||
+      image.origin === apiOrigin
+    ) {
+      return `${apiOrigin}${image.pathname}${image.search}`;
+    }
+
+    return image.toString();
+  } catch {
+    return imageUrl;
+  }
+};
 
 
 export const getHistoricalPhotos = async (query) => {
-  const response = await api.get('/photos/historical', { params: { query } });
+  const response = await api.get('/photos', { params: { query } });
   return response.data;
 };
 
 export const getPhotosByEra = async (era) => {
-  const response = await api.get(`/photos/epoca/${era}`);
+  const response = await api.get(`/photos/era/${era}`);
   return response.data;
 };
 

@@ -1,3 +1,16 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: #0d0d0d;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
 /* --- Container Global e Cabeçalho --- */
 body {
   background-color: #0d0d0d;

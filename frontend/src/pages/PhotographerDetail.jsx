@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getPhotographer } from '../services/api';
+import { getPhotographer, resolveImageUrl } from '../services/api';
 import { PhotoCard } from '../components/PhotoCard';
 
 export function PhotographerDetail() {
@@ -36,9 +36,9 @@ export function PhotographerDetail() {
 
       <div style={styles.profileHeader}>
         {photographer.profileImage && (
-          <img 
-  src={photo.imageUrl} 
-  alt={photo.title} 
+          <img
+  src={resolveImageUrl(photographer.profileImage)}
+  alt={photographer.name}
   referrerPolicy="no-referrer" 
 />
         )}
