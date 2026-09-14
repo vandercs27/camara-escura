@@ -20,6 +20,8 @@ export function PhotoDetail() {
         // ✅ Busca os detalhes da fotografia pelo ID recebido na URL
         const endpoint = id.startsWith('wiki-')
           ? `${API_URL}/photos/licensed/${id}`
+          : id.startsWith('met-')
+            ? `${API_URL}/photos/modern/${id}`
           : `${API_URL}/photos/${id}`;
         const response = await fetch(endpoint);
 

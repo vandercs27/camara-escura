@@ -5,6 +5,11 @@ const {
   getPhotographerPhotos,
   getEraPhotographers,
 } = require('../services/wikimediaService');
+const {
+  getModernPhotosFromMet,
+  getMetPhotoById,
+  getAicPhotoById,
+} = require('../services/metMuseumService');
 
 const getAllPhotos = async (req, res) => {
   try {
@@ -58,6 +63,30 @@ const getLicensedHistoricalPhotos = async (req, res) => {
   } catch (error) {
     console.error('Erro ao buscar fotos licenciadas:', error.message);
     return res.status(502).json({ error: 'Fonte de fotografias licenciadas indisponível.' });
+  }
+};
+
+const getModernLicensedPhotos = async (req, res) => {
+  try {
+    const { query = '20th century photography' } = req.query;
+    const photos = await getModernPhotosFromMet(String(query));
+    return res.status(200).json(photos);
+  } catch (error) {
+    console.error('Erro ao buscar fotos modernas licenciadas:', error.message);
+    return res.status(502).json({ error: 'Acervo moderno licenciado indisponível.' });
+  }
+};
+
+const getModernLicensedPhotoById = async (req, res) => {
+  try {
+    const photo = req.params.id.startsWith('aic-')
+      ? await getAicPhotoById(req.params.id)
+      : await getMetPhotoById(req.params.id);
+    if (!photo) return res.status(404).json({ error: 'Fotografia do The Met não encontrada.' });
+    return res.status(200).json(photo);
+  } catch (error) {
+    console.error('Erro ao buscar detalhe do The Met:', error.message);
+    return res.status(502).json({ error: 'Acervo do The Met indisponível.' });
   }
 };
 // src/controllers/historicalPhotoController.js
@@ -188,6 +217,8 @@ module.exports = {
   getAllPhotos,
   getPhotosByEra,
   getLicensedHistoricalPhotos,
+  getModernLicensedPhotos,
+  getModernLicensedPhotoById,
   getLicensedPhotoByIdController,
   getPhotographerPhotosController,
   getPhotoById,
