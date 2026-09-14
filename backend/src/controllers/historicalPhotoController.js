@@ -69,7 +69,7 @@ const getLicensedHistoricalPhotos = async (req, res) => {
 
 const getModernLicensedPhotos = async (req, res) => {
   try {
-    const { query = '20th century photography' } = req.query;
+    const { query = 'photography' } = req.query;
     const photos = await getModernPhotosFromMet(String(query));
     return res.status(200).json(photos);
   } catch (error) {

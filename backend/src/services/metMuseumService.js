@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { getHistoricalPhotosFromWiki } = require('./wikimediaService');
 
 const MET_API_URL = 'https://collectionapi.metmuseum.org/public/collection/v1';
 const AIC_API_URL = 'https://api.artic.edu/api/v1';
@@ -111,6 +112,15 @@ const getModernPhotos = async (query = 'photography', limit = 24) => {
   } catch (error) {
     console.warn(`The Met indisponível; usando Art Institute: ${error.message}`);
   }
+
+  const contemporaryQuery = query === 'photography'
+    ? 'Sebastião Salgado OR Cindy Sherman OR Nan Goldin OR Vik Muniz OR JR photographer OR Vivian Maier OR Gordon Parks'
+    : query;
+  const licensedPhotos = await getHistoricalPhotosFromWiki(contemporaryQuery, limit);
+  if (licensedPhotos.length) return licensedPhotos.map((photo) => ({
+    ...photo,
+    era: 'contemporanea',
+  }));
 
   return getModernPhotosFromAic(query, limit);
 };

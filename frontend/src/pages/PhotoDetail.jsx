@@ -22,6 +22,8 @@ export function PhotoDetail() {
           ? `${API_URL}/photos/licensed/${id}`
           : id.startsWith('met-')
             ? `${API_URL}/photos/modern/${id}`
+            : id.startsWith('aic-')
+              ? `${API_URL}/photos/modern/${id}`
           : `${API_URL}/photos/${id}`;
         const response = await fetch(endpoint);
 
