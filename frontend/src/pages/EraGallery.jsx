@@ -18,7 +18,7 @@ export function EraGallery() {
       try {
        // Obtém a URL do backend enviada pelo Render (ou usa o localhost como fallback se estiver testando no PC)
 const endpoint = era === 'contemporanea'
-  ? `${API_URL}/photos/modern`
+  ? `${API_URL}/photos/modern${searchQuery ? `?query=${encodeURIComponent(searchQuery)}` : ''}`
   : era
   ? `${API_URL}/photos/era/${era}`
   : searchQuery

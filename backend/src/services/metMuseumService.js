@@ -105,8 +105,13 @@ const getModernPhotosFromAic = async (query = 'photography', limit = 24) => {
 };
 
 const getModernPhotos = async (query = 'photography', limit = 24) => {
-  const metPhotos = await getModernPhotosFromMet(query, limit);
-  if (metPhotos.length) return metPhotos;
+  try {
+    const metPhotos = await getModernPhotosFromMet(query, limit);
+    if (metPhotos.length) return metPhotos;
+  } catch (error) {
+    console.warn(`The Met indisponível; usando Art Institute: ${error.message}`);
+  }
+
   return getModernPhotosFromAic(query, limit);
 };
 

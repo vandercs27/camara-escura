@@ -26,7 +26,8 @@ const getPhotosByEra = async (req, res) => {
     const photos = await getHistoricalPhotosFromWiki(getEraPhotographers(era).join(' OR '));
     return res.status(200).json(photos);
   } catch (error) {
-    return res.status(500).json({ error: 'Erro ao buscar fotos por época' });
+    console.error('Erro ao buscar fotos por época:', error.message);
+    return res.status(200).json([]);
   }
 };
 
@@ -62,7 +63,7 @@ const getLicensedHistoricalPhotos = async (req, res) => {
     return res.status(200).json(photos);
   } catch (error) {
     console.error('Erro ao buscar fotos licenciadas:', error.message);
-    return res.status(502).json({ error: 'Fonte de fotografias licenciadas indisponível.' });
+    return res.status(200).json([]);
   }
 };
 
@@ -73,7 +74,7 @@ const getModernLicensedPhotos = async (req, res) => {
     return res.status(200).json(photos);
   } catch (error) {
     console.error('Erro ao buscar fotos modernas licenciadas:', error.message);
-    return res.status(502).json({ error: 'Acervo moderno licenciado indisponível.' });
+    return res.status(200).json([]);
   }
 };
 
