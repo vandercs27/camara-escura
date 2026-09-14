@@ -48,7 +48,7 @@ const createPhoto = async (req, res) => {
     // Se o arquivo foi enviado por upload de arquivo, usa o caminho estático gerado
     let finalImageUrl = imageUrl;
     if (req.file) {
-      finalImageUrl = `http://localhost:5000/uploads/${req.file.filename}`;
+      finalImageUrl = `/uploads/${req.file.filename}`;
     }
 
     if (!finalImageUrl) {
@@ -99,7 +99,7 @@ const updatePhoto = async (req, res) => {
 
     let finalImageUrl = imageUrl;
     if (req.file) {
-      finalImageUrl = `http://localhost:5000/uploads/${req.file.filename}`;
+      finalImageUrl = `/uploads/${req.file.filename}`;
     }
 
     const updatedPhoto = await historicalPhotoService.updatePhotoInDb(id, {

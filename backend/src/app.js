@@ -2,12 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+require('dotenv').config();
 const connectDB = require('./config/db');
 
 const historicalPhotoRoutes = require('./routes/historicalPhotoRoutes');
 const { loginUser } = require('./controllers/authController');
 
 const app = express();
+app.set('trust proxy', 1);
 
 // Conectar ao MongoDB
 connectDB();
