@@ -11,9 +11,10 @@ const generateToken = (id) => {
 
 const loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const emailValue = typeof req.body.email === 'string' ? req.body.email.trim().toLowerCase() : '';
+    const password = typeof req.body.password === 'string' ? req.body.password : '';
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: emailValue });
 
     if (user && (await user.matchPassword(password))) {
       return res.json({

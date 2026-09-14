@@ -8,17 +8,21 @@ connectDB();
 
 const importData = async () => {
   try {
-    await Photo.deleteMany();
-    await User.deleteMany();
-
-    // 1. Criar usuário Admin padrão
-    const adminUser = await User.create({
-      name: 'Administrador',
-      email: 'admin@camaraescura.com',
-      password: 'admin123password',
-    });
-
-    console.log(`Admin criado: ${adminUser.email}`);
+    // 1. Criar ou atualizar o administrador sem apagar dados existentes.
+    const adminUser = await User.findOne({ email: 'admin@camaraescura.com' });
+    if (adminUser) {
+      adminUser.name = 'Administrador';
+      adminUser.isAdmin = true;
+      await adminUser.save();
+      console.log(`Admin já existente: ${adminUser.email}`);
+    } else {
+      const createdAdmin = await User.create({
+        name: 'Administrador',
+        email: 'admin@camaraescura.com',
+        password: 'admin123password',
+      });
+      console.log(`Admin criado: ${createdAdmin.email}`);
+    }
 
     // 2. Formatar e importar fotos do JSON
     const photosToInsert = [];
@@ -38,8 +42,16 @@ const importData = async () => {
       });
     }
 
-    await Photo.insertMany(photosToInsert);
-    console.log(`${photosToInsert.length} fotografias importadas com sucesso!`);
+    let insertedPhotos = 0;
+    for (const photoData of photosToInsert) {
+      const result = await Photo.updateOne(
+        { title: photoData.title, photographer: photoData.photographer },
+        { $setOnInsert: photoData },
+        { upsert: true }
+      );
+      insertedPhotos += result.upsertedCount || 0;
+    }
+    console.log(`${insertedPhotos} fotografias novas importadas; dados existentes preservados.`);
 
     process.exit();
   } catch (error) {
