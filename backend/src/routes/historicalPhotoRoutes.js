@@ -7,6 +7,8 @@ const upload = require('../middleware/uploadMiddleware');
 // 1. Rotas públicas
 router.get('/era/:era', controller.getPhotosByEra);
 router.get('/historical', controller.getLicensedHistoricalPhotos);
+router.get('/photographer/:username', controller.getPhotographerPhotosController);
+router.get('/licensed/:id', controller.getLicensedPhotoByIdController);
 router.get('/', controller.getAllPhotos);
 
 // 2. Rotas privadas do Administrador

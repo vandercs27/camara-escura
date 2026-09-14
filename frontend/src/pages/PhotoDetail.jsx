@@ -18,7 +18,10 @@ export function PhotoDetail() {
         setError(null);
 
         // ✅ Busca os detalhes da fotografia pelo ID recebido na URL
-        const response = await fetch(`${API_URL}/photos/${id}`);
+        const endpoint = id.startsWith('wiki-')
+          ? `${API_URL}/photos/licensed/${id}`
+          : `${API_URL}/photos/${id}`;
+        const response = await fetch(endpoint);
 
         if (!response.ok) {
           throw new Error(`Erro ao carregar fotografia (${response.status})`);
@@ -121,13 +124,22 @@ export function PhotoDetail() {
         <div style={styles.infoColumn}>
           <h2 style={styles.title}>{photo.title}</h2>
           <p style={styles.author}>
-            {photo.photographer} ({photo.year})
+            <Link to={`/fotografo/${encodeURIComponent(photo.photographer)}`} style={styles.authorLink}>
+              {photo.photographer}
+            </Link> ({photo.year})
           </p>
 
           <div style={styles.badgeContainer}>
             <span style={styles.badge}>Mídia: {photo.medium || 'N/A'}</span>
             <span style={styles.badge}>Época: {photo.era || 'N/A'}</span>
+            {photo.license && <span style={styles.badge}>Licença: {photo.license}</span>}
           </div>
+          {photo.sourceUrl && (
+            <p style={styles.source}>
+              Fonte: <a href={photo.sourceUrl} target="_blank" rel="noreferrer">{photo.source || 'Wikimedia Commons'}</a>
+              {photo.credit ? ` · Crédito: ${photo.credit}` : ''}
+            </p>
+          )}
 
           <hr style={styles.divider} />
 
@@ -245,6 +257,14 @@ const styles = {
     fontStyle: 'italic',
     margin: '0 0 20px 0',
     textTransform: 'capitalize',
+  },
+  authorLink: {
+    color: 'inherit',
+    textDecoration: 'none',
+  },
+  source: {
+    color: '#999',
+    fontSize: '0.85rem',
   },
   badgeContainer: {
     display: 'flex',

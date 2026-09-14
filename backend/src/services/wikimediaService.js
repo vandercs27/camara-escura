@@ -18,7 +18,21 @@ const CURATED_PHOTOGRAPHERS = [
   'Berenice Abbott',
   'Gordon Parks',
   'Vivian Maier',
+  'Sebastião Salgado',
+  'Cindy Sherman',
+  'Nan Goldin',
+  'Vik Muniz',
+  'JR photographer',
+  'David Shankbone',
+  'Lori Shaull',
 ];
+const ERA_PHOTOGRAPHERS = {
+  'seculo-19': CURATED_PHOTOGRAPHERS.slice(0, 6),
+  '1900-1920': ['Alfred Stieglitz', 'Edward Steichen', 'Eugene Atget', 'Man Ray'],
+  '1930-1950': ['Dorothea Lange', 'Walker Evans', 'Ansel Adams', 'Berenice Abbott'],
+  '1960-1980': ['Gordon Parks', 'Vivian Maier', 'Man Ray', 'Tina Modotti'],
+  contemporanea: CURATED_PHOTOGRAPHERS.slice(16),
+};
 let curatedCache = { expiresAt: 0, photos: [] };
 const ALLOWED_LICENSES = [
   'Public domain',
@@ -107,7 +121,9 @@ const getHistoricalPhotosFromWiki = async (query, limit = 48) => {
     searchGroups.push(searchTerms.slice(index, index + 4));
   }
   const pagesBySearch = await Promise.all(searchGroups.map((group) => {
-    const searchExpression = group.length === 1
+    const searchExpression = group[0].includes(' OR ')
+      ? group[0]
+      : group.length === 1
       ? `"${group[0]}"`
       : group.map((term) => `"${term}"`).join(' OR ');
     return fetchPhotographerWorks(searchExpression, query ? safeLimit : 16);
@@ -128,4 +144,36 @@ const getHistoricalPhotosFromWiki = async (query, limit = 48) => {
   return uniquePhotos.slice(0, safeLimit);
 };
 
-module.exports = { getHistoricalPhotosFromWiki };
+const getLicensedPhotoById = async (id) => {
+  const pageId = String(id).replace(/^wiki-/, '');
+  if (!/^\d+$/.test(pageId)) return null;
+
+  const response = await axios.get(WIKIMEDIA_API_URL, {
+    params: {
+      action: 'query',
+      pageids: pageId,
+      prop: 'imageinfo',
+      iiprop: 'url|extmetadata|timestamp',
+      format: 'json',
+      origin: '*',
+    },
+    timeout: 15000,
+    headers: {
+      'User-Agent': 'CamaraEscura/1.0 (historical photography educational project)',
+    },
+  });
+  const page = Object.values(response.data.query?.pages || {})[0];
+  return page ? mapLicensedPhoto(page) : null;
+};
+
+const getPhotographerPhotos = async (name) =>
+  getHistoricalPhotosFromWiki(String(name || '').trim(), 48);
+
+const getEraPhotographers = (era) => ERA_PHOTOGRAPHERS[era] || CURATED_PHOTOGRAPHERS;
+
+module.exports = {
+  getHistoricalPhotosFromWiki,
+  getLicensedPhotoById,
+  getPhotographerPhotos,
+  getEraPhotographers,
+};

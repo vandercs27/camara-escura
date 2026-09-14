@@ -1,5 +1,10 @@
 const historicalPhotoService = require('../services/historicalPhotoService');
-const { getHistoricalPhotosFromWiki } = require('../services/wikimediaService');
+const {
+  getHistoricalPhotosFromWiki,
+  getLicensedPhotoById,
+  getPhotographerPhotos,
+  getEraPhotographers,
+} = require('../services/wikimediaService');
 
 const getAllPhotos = async (req, res) => {
   try {
@@ -13,10 +18,35 @@ const getAllPhotos = async (req, res) => {
 const getPhotosByEra = async (req, res) => {
   try {
     const { era } = req.params;
-    const photos = await historicalPhotoService.getPhotosByEra(era);
+    const photos = await getHistoricalPhotosFromWiki(getEraPhotographers(era).join(' OR '));
     return res.status(200).json(photos);
   } catch (error) {
     return res.status(500).json({ error: 'Erro ao buscar fotos por época' });
+  }
+};
+
+const getLicensedPhotoByIdController = async (req, res) => {
+  try {
+    const photo = await getLicensedPhotoById(req.params.id);
+    if (!photo) return res.status(404).json({ error: 'Fotografia licenciada não encontrada.' });
+    return res.status(200).json(photo);
+  } catch (error) {
+    console.error('Erro ao buscar detalhe licenciado:', error.message);
+    return res.status(502).json({ error: 'Fonte de fotografias licenciadas indisponível.' });
+  }
+};
+
+const getPhotographerPhotosController = async (req, res) => {
+  try {
+    const photos = await getPhotographerPhotos(req.params.username);
+    return res.status(200).json({
+      name: req.params.username,
+      totalPhotos: photos.length,
+      photos,
+    });
+  } catch (error) {
+    console.error('Erro ao buscar acervo do fotógrafo:', error.message);
+    return res.status(502).json({ error: 'Acervo do fotógrafo indisponível.' });
   }
 };
 
@@ -158,6 +188,8 @@ module.exports = {
   getAllPhotos,
   getPhotosByEra,
   getLicensedHistoricalPhotos,
+  getLicensedPhotoByIdController,
+  getPhotographerPhotosController,
   getPhotoById,
   createPhoto,
   updatePhoto, // <- VERIFIQUE ESTA LINHA
