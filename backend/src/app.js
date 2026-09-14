@@ -47,11 +47,11 @@ const bootstrapAdmin = async () => {
 
   const existingUser = await User.findOne({ email });
   if (existingUser) {
-    if (!existingUser.isAdmin) {
-      existingUser.isAdmin = true;
-      await existingUser.save();
-    }
-    console.log(`Administrador confirmado: ${email}`);
+    existingUser.name = process.env.ADMIN_NAME?.trim() || existingUser.name || 'Administrador';
+    existingUser.isAdmin = true;
+    existingUser.password = password;
+    await existingUser.save();
+    console.log(`Administrador sincronizado: ${email}`);
     return;
   }
 
