@@ -1,4 +1,5 @@
 const historicalPhotoService = require('../services/historicalPhotoService');
+const { getHistoricalPhotosFromWiki } = require('../services/wikimediaService');
 
 const getAllPhotos = async (req, res) => {
   try {
@@ -16,6 +17,17 @@ const getPhotosByEra = async (req, res) => {
     return res.status(200).json(photos);
   } catch (error) {
     return res.status(500).json({ error: 'Erro ao buscar fotos por época' });
+  }
+};
+
+const getLicensedHistoricalPhotos = async (req, res) => {
+  try {
+    const { query = 'history of photography' } = req.query;
+    const photos = await getHistoricalPhotosFromWiki(String(query));
+    return res.status(200).json(photos);
+  } catch (error) {
+    console.error('Erro ao buscar fotos licenciadas:', error.message);
+    return res.status(502).json({ error: 'Fonte de fotografias licenciadas indisponível.' });
   }
 };
 // src/controllers/historicalPhotoController.js
@@ -145,6 +157,7 @@ const deletePhoto = async (req, res) => {
 module.exports = {
   getAllPhotos,
   getPhotosByEra,
+  getLicensedHistoricalPhotos,
   getPhotoById,
   createPhoto,
   updatePhoto, // <- VERIFIQUE ESTA LINHA

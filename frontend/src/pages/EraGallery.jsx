@@ -17,8 +17,10 @@ export function EraGallery() {
       setError(null);
       try {
        // Obtém a URL do backend enviada pelo Render (ou usa o localhost como fallback se estiver testando no PC)
-const eraParam = era ? era : 'todas';
-const response = await fetch(`${API_URL}/photos/era/${eraParam}`);
+const endpoint = era
+  ? `${API_URL}/photos/era/${era}`
+  : `${API_URL}/photos/historical?query=${encodeURIComponent(searchQuery || 'history of photography')}`;
+const response = await fetch(endpoint);
 
         if (!response.ok) {
           throw new Error(`Falha na resposta do servidor (${response.status})`);
@@ -41,7 +43,7 @@ const response = await fetch(`${API_URL}/photos/era/${eraParam}`);
     }
 
     fetchPhotos();
-  }, [era]);
+  }, [era, searchQuery]);
 
   const filteredPhotos = (photos || []).filter((photo) => {
     if (!searchQuery) return true;
@@ -88,6 +90,11 @@ const response = await fetch(`${API_URL}/photos/era/${eraParam}`);
               {photo.photographer || 'Autor Desconhecido'} {photo.year ? `(${photo.year})` : ''}
             </p>
             {photo.medium && <span style={styles.cardMedium}>{photo.medium}</span>}
+            {photo.license && (
+              <span style={styles.cardLicense}>
+                {photo.license} · {photo.source || 'Fonte licenciada'}
+              </span>
+            )}
           </div>
         </Link>
       );
@@ -166,5 +173,11 @@ const styles = {
     border: '1px solid #333',
     padding: '4px 8px',
     borderRadius: '4px',
+  },
+  cardLicense: {
+    display: 'block',
+    marginTop: '6px',
+    color: '#82c7a5',
+    fontSize: '0.72rem',
   },
 };
